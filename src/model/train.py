@@ -12,16 +12,25 @@ from sklearn.linear_model import LogisticRegression
 # define functions
 def main(args):
     # TO DO: enable autologging
-
+    mlflow.start_run()
 
     # read data
     df = get_csvs_df(args.training_data)
 
     # split data
     X_train, X_test, y_train, y_test = split_data(df)
-
+    
+    # log parameters
+    mlflow.log_param("reg_rate", args.reg_rate)
+    
     # train model
     train_model(args.reg_rate, X_train, X_test, y_train, y_test)
+
+    # log metrics
+    mlflow.log_metric("accuracy", your_accuracy_metric)
+
+    # end the run
+    mlflow.end_run()
 
 
 def get_csvs_df(path):
